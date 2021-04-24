@@ -17,7 +17,6 @@
 apply plugin: 'java'
 
 repositories {
-  jcenter()
   mavenCentral()
 }
 configurations {
@@ -58,6 +57,11 @@ tasks.register("runFunction", JavaExec) {
   doFirst {
     args('--classpath', files(configurations.runtimeClasspath, sourceSets.main.output).asPath)
   }
+}
+
+task runServer(type: Exec) {
+  dependsOn('build')
+  commandLine './gradlew', 'runFunction', '-Prun.functionTarget=com.anderb.gcp.functions.HealthHttp'
 }
 // [END functions_gradle_specify_function]
 // [END functions_build_gradle]
